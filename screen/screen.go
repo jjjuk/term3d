@@ -59,6 +59,7 @@ func (s *Screen) Render(fn RenderFunction) {
 	}
 }
 
-func (s *Screen) DrawFrame() {
+func (s *Screen) DrawFrame(onFrame func()) {
 	s.terminal.WriteTermOutput(s.Frame.ToString())
+	onFrame()
 }
