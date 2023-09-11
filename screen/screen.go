@@ -12,12 +12,12 @@ import (
 	"golang.org/x/term"
 
 	"ter3d/pbuff"
+	"ter3d/terminal"
 	"ter3d/vec2"
-	"ter3d/win"
 )
 
 type Screen struct {
-	terminal *win.Win
+	terminal *terminal.Win
 	width    uint
 	height   uint
 	ratio    float32
@@ -33,7 +33,7 @@ func New() *Screen {
 	}
 
 	return &Screen{
-		terminal: win.New(),
+		terminal: terminal.NewWinTerm(),
 		width:    uint(width),
 		height:   uint(height),
 		ratio:    float32(width) / float32(height),
