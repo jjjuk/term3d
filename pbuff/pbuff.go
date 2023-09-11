@@ -25,12 +25,12 @@ func (c *PlaneBuffer) getLinPos(x, y uint) (uint, error) {
 
 func (c *PlaneBuffer) Set(x, y uint, char byte) {
 	c.mu.Lock()
+	defer c.mu.Unlock()
 	pos, err := c.getLinPos(x, y)
 	if err != nil {
 		return
 	}
 	c.Buffer[pos] = char
-	defer c.mu.Unlock()
 }
 
 func (c *PlaneBuffer) ToString() string {
