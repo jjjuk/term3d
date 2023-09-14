@@ -12,7 +12,7 @@ import (
 	"ter3d/vec2"
 )
 
-const termSymRatio = 0.5625
+const termSymRatio = 0.5
 
 type Screen struct {
 	terminal *terminal.Win
