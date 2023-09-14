@@ -1,7 +1,8 @@
 package pbuff
 
 import (
-	"errors"
+	"fmt"
+	"log"
 )
 
 type PlaneBuffer struct {
@@ -16,7 +17,7 @@ func New(x, y uint) *PlaneBuffer {
 
 func (c *PlaneBuffer) getLinPos(x, y uint) (uint, error) {
 	if x > c.xSize || y > c.ySize {
-		return 0, errors.New("position is out of range")
+		return 0, fmt.Errorf("position (%v,%v) is out of range. max position is (%v,%v)", x, y, c.xSize, c.ySize)
 	}
 	return y*c.xSize + x, nil
 }
@@ -24,7 +25,7 @@ func (c *PlaneBuffer) getLinPos(x, y uint) (uint, error) {
 func (c *PlaneBuffer) Set(x, y uint, char byte) {
 	pos, err := c.getLinPos(x, y)
 	if err != nil {
-		return // maybe panic
+		log.Panic(err)
 	}
 	c.Buffer[pos] = char
 }
