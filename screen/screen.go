@@ -1,13 +1,9 @@
 package screen
 
-/*
-#include <windows.h>
-*/
-import "C"
-
 import (
 	"log"
 	"os"
+	"sync"
 
 	"golang.org/x/term"
 
@@ -49,14 +45,18 @@ func (s *Screen) GetPixelVector(x, y uint) *vec2.Vec2 {
 type RenderFunction func(pixel *vec2.Vec2, w, h uint) byte
 
 func (s *Screen) Render(fn RenderFunction) {
+	var wg sync.WaitGroup
 	for y := uint(0); y < s.height; y++ {
-
 		for x := uint(0); x < s.width; x++ {
-			pixel := s.GetPixelVector(x, y)
-			s.Frame.Set(x, y, fn(pixel, s.width, s.height))
+			wg.Add(1)
+			go func(x, y uint) {
+				defer wg.Done()
+				pixel := s.GetPixelVector(x, y)
+				s.Frame.Set(x, y, fn(pixel, s.width, s.height))
+			}(x, y)
 		}
-
 	}
+	wg.Wait()
 }
 
 func (s *Screen) DrawFrame(onFrame func()) {
