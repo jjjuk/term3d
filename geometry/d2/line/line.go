@@ -27,9 +27,11 @@ func (l *Line2) Center() *vec2.Vec2 {
 	return vec2.AddTwo(l[0], l[1]).DivScal(2)
 }
 
-func (l *Line2) RotateByCenter(ang float32, clockwise bool) {
-	center := l.Center()
+func (l *Line2) RotateByOrigin(or *vec2.Vec2, ang float32, clockwise bool) {
+	l[0].RotateByPoint(or, ang, clockwise)
+	l[1].RotateByPoint(or, ang, clockwise)
+}
 
-	l[0].RotateByPoint(center, ang, clockwise)
-	l[1].RotateByPoint(center, ang, clockwise)
+func (l *Line2) RotateByCenter(ang float32, clockwise bool) {
+	l.RotateByOrigin(l.Center(), ang, clockwise)
 }

@@ -16,6 +16,8 @@ func MovingLines() (screen.RenderFunction, FrameFunction) {
 	line1 := line2.New(vec2.New(-1, -1), vec2.New(1, 1))
 	line2 := line2.New(vec2.New(-1, 1), vec2.New(1, -1))
 
+	origin := vec2.New(0, 0)
+
 	return func(pixel *vec2.Vec2, w, h uint, r float32) byte {
 
 			var light int
@@ -25,10 +27,10 @@ func MovingLines() (screen.RenderFunction, FrameFunction) {
 			dist1 := line1.DistanceToPoint(pixel)
 			dist2 := line2.DistanceToPoint(pixel)
 
-			light1 := 16 - int(math32.Round((dist1 / (minDist))))
-			light2 := 16 - int(math32.Round((dist2 / (minDist))))
+			light1 := int(math32.Round((dist1 / (minDist * 8)))) - 1
+			light2 := int(math32.Round((dist2 / (minDist * 8)))) - 1
 
-			if light1 > light2 {
+			if light1 < light2 {
 				light = light1
 			} else {
 				light = light2
@@ -42,7 +44,7 @@ func MovingLines() (screen.RenderFunction, FrameFunction) {
 			}
 			return shades[light]
 		}, func() {
-			line1.RotateByCenter(math32.Pi/64, false)
-			line2.RotateByCenter(math32.Pi/256, true)
+			line1.RotateByOrigin(origin, math32.Pi/64, false)
+			line2.RotateByOrigin(origin, math32.Pi/256, true)
 		}
 }
