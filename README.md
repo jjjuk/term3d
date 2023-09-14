@@ -8,4 +8,4 @@ Now only shows little 2d animation with lines.
 ### Start
 `go run .` 
 
-![Screenshot](https://raw.githubusercontent.com/jjjuk/term3d/main/lines.png)
+![Screenshot](https://raw.githubusercontent.com/jjjuk/term3d/main/screenshot.png)
