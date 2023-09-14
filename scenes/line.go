@@ -13,10 +13,10 @@ const shades = " .:!/r(l1Z4H9W8$@"
 type FrameFunction func()
 
 func MovingLines() (screen.RenderFunction, FrameFunction) {
-	line1 := line2.New(vec2.New(0, 0), vec2.New(1, 1))
-	line2 := line2.New(vec2.New(0, 1), vec2.New(1, 0))
+	line1 := line2.New(vec2.New(-1, -1), vec2.New(1, 1))
+	line2 := line2.New(vec2.New(-1, 1), vec2.New(1, -1))
 
-	return func(pixel *vec2.Vec2, w, h uint) byte {
+	return func(pixel *vec2.Vec2, w, h uint, r float32) byte {
 
 			var light int
 

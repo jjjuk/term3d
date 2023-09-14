@@ -12,6 +12,8 @@ import (
 	"ter3d/vec2"
 )
 
+const termSymRatio = 0.5625
+
 type Screen struct {
 	terminal *terminal.Win
 	width    uint
@@ -38,11 +40,19 @@ func New() *Screen {
 	}
 }
 
-func (s *Screen) GetPixelVector(x, y uint) *vec2.Vec2 {
-	return vec2.New((float32(x) / float32(s.width)), (float32(y) / float32(s.height)))
+func (s *Screen) getVX(x uint) float32 {
+	return (-1 + float32(x)/(float32(s.width)/2))
 }
 
-type RenderFunction func(pixel *vec2.Vec2, w, h uint) byte
+func (s *Screen) getVY(y uint) float32 {
+	return (1 - float32(y)/(float32(s.height)/2))
+}
+
+func (s *Screen) getPixelVector(x, y uint) *vec2.Vec2 {
+	return vec2.New(s.getVX(x)*s.ratio*termSymRatio, s.getVY(y))
+}
+
+type RenderFunction func(pixel *vec2.Vec2, w, h uint, r float32) byte
 
 func (s *Screen) Render(fn RenderFunction) {
 	var wg sync.WaitGroup
@@ -51,8 +61,8 @@ func (s *Screen) Render(fn RenderFunction) {
 			wg.Add(1)
 			go func(x, y uint) {
 				defer wg.Done()
-				pixel := s.GetPixelVector(x, y)
-				s.Frame.Set(x, y, fn(pixel, s.width, s.height))
+				pixel := s.getPixelVector(x, y)
+				s.Frame.Set(x, y, fn(pixel, s.width, s.height, s.ratio))
 			}(x, y)
 		}
 	}
