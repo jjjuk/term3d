@@ -9,7 +9,7 @@ import (
 func main() {
 
 	screen := screen.New()
-	render, onFrame := scenes.MovingCircle()
+	render, onFrame := scenes.MovingLinesWithGradient()
 	for {
 		start := time.Now().Unix()
 		screen.Render(render)

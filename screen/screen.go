@@ -12,7 +12,7 @@ import (
 	"ter3d/vec2"
 )
 
-const termSymRatio = 0.5
+const termCharRatio = 0.5
 
 type Screen struct {
 	terminal *terminal.Win
@@ -49,7 +49,7 @@ func (s *Screen) getVY(y uint) float32 {
 }
 
 func (s *Screen) getPixelVector(x, y uint) *vec2.Vec2 {
-	return vec2.New(s.getVX(x)*s.ratio*termSymRatio, s.getVY(y))
+	return vec2.New(s.getVX(x)*s.ratio*termCharRatio, s.getVY(y))
 }
 
 type RenderFunction func(pixel *vec2.Vec2, w, h uint, r float32) byte
